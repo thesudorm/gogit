@@ -5,6 +5,7 @@ import (
     "os"
     "io"
     "crypto/sha1"
+    "strconv"
 )
 
 func main() {
@@ -40,7 +41,11 @@ func hash(input string) {
 
     c := '\x00'
     s := fmt.Sprintf("%c", c)
+    to_hash := "blob " + strconv.Itoa(len(input) + 1)  + s + input
 
-    io.WriteString(hash, "blob 5" + s + input)
+    fmt.Printf("%q \n", to_hash)
+    fmt.Println([]byte(to_hash))
+
+    io.WriteString(hash, "blob " + strconv.Itoa(len(input) + 1)  + s + input)
     fmt.Printf("%x \n", hash.Sum(nil))
 }
