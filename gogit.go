@@ -3,10 +3,13 @@ package main
 import (
     "fmt"
     "os"
+    "io"
+    "crypto/sha1"
 )
 
 func main() {
-    init_repo("/home/thesudorm/test")
+    //init_repo("/home/thesudorm/test")
+    hash("test")
 }
 
 func init_repo(repo string) {
@@ -30,4 +33,14 @@ func init_repo(repo string) {
     head.WriteString("ref: refs/heads/master")
 
     fmt.Println("Succesfully initialized \"" + repo + "/.git\"")
+}
+
+func hash(input string) {
+    hash := sha1.New()
+
+    c := '\x00'
+    s := fmt.Sprintf("%c", c)
+
+    io.WriteString(hash, "blob 5" + s + input)
+    fmt.Printf("%x \n", hash.Sum(nil))
 }
