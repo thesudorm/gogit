@@ -6,11 +6,21 @@ import (
     "io"
     "crypto/sha1"
     "strconv"
+    "path/filepath"
 )
 
 func main() {
-    //init_repo("/home/thesudorm/test")
-    hash("test")
+    arg := os.Args[1]
+
+    switch arg {
+        case "init":
+            path := get_dir()
+            init_repo(path)
+        case "hash-object":
+            hash("test")
+        default:
+            fmt.Println("not a proper command")
+    }
 }
 
 func init_repo(repo string) {
@@ -48,4 +58,13 @@ func hash(input string) {
 
     io.WriteString(hash, "blob " + strconv.Itoa(len(input) + 1)  + s + input)
     fmt.Printf("%x \n", hash.Sum(nil))
+}
+
+func get_dir() string {
+    ex, err := os.Executable()
+    if err != nil{
+        panic(err)
+    }
+    path := filepath.Dir(ex)
+    return path
 }
