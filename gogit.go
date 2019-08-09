@@ -6,7 +6,6 @@ import (
     "io"
     "crypto/sha1"
     "strconv"
-    "path/filepath"
 )
 
 func main() {
@@ -14,8 +13,8 @@ func main() {
 
     switch arg {
         case "init":
-            path := get_dir()
-            init_repo(path)
+            pwd := get_dir()
+            init_repo(pwd)
         case "hash-object":
             hash("test")
         default:
@@ -61,10 +60,9 @@ func hash(input string) {
 }
 
 func get_dir() string {
-    ex, err := os.Executable()
+    path, err := os.Getwd()
     if err != nil{
         panic(err)
     }
-    path := filepath.Dir(ex)
     return path
 }
