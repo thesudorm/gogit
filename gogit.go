@@ -22,6 +22,7 @@ func main() {
     }
 }
 
+// Will attempt to make a .git repo for the given file path
 func init_repo(repo string) {
     fmt.Println("Initializing repo")
     err := os.Mkdir(repo + "/.git/", os.ModePerm)
@@ -48,17 +49,16 @@ func init_repo(repo string) {
 func hash(input string) {
     hash := sha1.New()
 
-    c := '\x00'
-    s := fmt.Sprintf("%c", c)
-    to_hash := "blob " + strconv.Itoa(len(input) + 1)  + s + input
+    to_hash := "blob " + strconv.Itoa(len(input) + 1)  + "\x00" + input
+    io.WriteString(hash, to_hash)
 
     fmt.Printf("%q \n", to_hash)
     fmt.Println([]byte(to_hash))
 
-    io.WriteString(hash, "blob " + strconv.Itoa(len(input) + 1)  + s + input)
     fmt.Printf("%x \n", hash.Sum(nil))
 }
 
+// Gets the current working directory 
 func get_dir() string {
     path, err := os.Getwd()
     if err != nil{
