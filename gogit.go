@@ -3,7 +3,6 @@ package main
 import (
     "fmt"
     "os"
-    "io"
     "crypto/sha1"
     "strconv"
 )
@@ -49,11 +48,12 @@ func init_repo(repo string) {
 func hash(input string) {
     hash := sha1.New()
 
-    to_hash := "blob " + strconv.Itoa(len(input) + 1)  + "\x00" + input
-    io.WriteString(hash, to_hash)
-
-    fmt.Printf("%q \n", to_hash)
-    fmt.Println([]byte(to_hash))
+    //to_hash := "blob " + strconv.Itoa(len(input) + 1)  + "\x00" + input
+    hash.Write([]byte("blob"))
+    hash.Write([]byte(" "))
+    hash.Write([]byte(strconv.Itoa(len(input) + 1)))
+    hash.Write([]byte{0})
+    hash.Write([]byte(input))
 
     fmt.Printf("%x \n", hash.Sum(nil))
 }
