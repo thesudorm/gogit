@@ -8,6 +8,12 @@ import (
 )
 
 func main() {
+
+    if len(os.Args) <= 1 {
+        print_help()
+        os.Exit(1)
+    }
+
     arg := os.Args[1]
 
     switch arg {
@@ -65,4 +71,8 @@ func get_dir() string {
         panic(err)
     }
     return path
+}
+
+func print_help() {
+    fmt.Println("Help message")
 }
